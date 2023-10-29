@@ -8,18 +8,15 @@ class ApplicationController < Sinatra::Base
 
   end
 
-  post "/movies" do
-    movie = Movie.find_or_create_by(title: (params[:movie] [:title]))
-    genre = Genre.find_or_create_by(name: params[:genre] [:name])
-    genre.update(
-      name: params[:genre] [:name],
-    ) 
-    movie = Movie.create(
-      title: params[:title],
-      genre_id: genre.id,
-      year: params[year],
-    )
+  get "/genres" do 
+    genres = Genre.all.order(:name)
+    genres.to_json
   end
 
-end
+  delete '/movies/:id' do
+    movie = Movie.find(params[:id])
+    movie.destroy
+    movie.to_json
+  end
+
 end
